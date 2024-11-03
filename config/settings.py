@@ -59,7 +59,7 @@ MIDDLEWARE = [
     'query_counter.middleware.DjangoQueryCounterMiddleware',
 ]
 
-# AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -85,21 +85,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'estateagency',
+        'USER': 'estateagency',
+        'PASSWORD': 'estateagency',
+        'HOST': '127.0.0.1', # or 'localhost'
+        'PORT': '5432',
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'n_air',
-#         'USER': 'n_air',
-#         'PASSWORD': 'n_air',
-#         'HOST': 'localhost', ### or '127.0.0.1'
-#         'PORT': '5432',
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
