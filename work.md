@@ -32,3 +32,9 @@ tzdata==2024.2
 * py manage.py collectstatic (statik fayllar yig'ildi birinchi marta)
 * py manage.py makemigrations (migratsiyalar yaratildi)
 * py manage.py migrate (migratsiyalar bajarildi)
+* psql integratsiya boldi
+* Custom User va Manager yozildi
+4. Ertangi ishimiz 
+* Malumotlar bazasi tahlili
+* Custom User qayta tahlili
+* Custom User admin.py tahlili
