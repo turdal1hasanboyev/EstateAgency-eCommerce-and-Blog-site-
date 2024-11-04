@@ -18,7 +18,7 @@ class Contact(BaseModel):
 
 class AgentContact(BaseModel):
     name = models.CharField(max_length=155)
-    agent = models.ForeignKey('agent.Agent', on_delete=models.CASCADE)
+    agent = models.ForeignKey('agent.Agent', on_delete=models.CASCADE, related_name="AgentContact")
     email = models.EmailField()
     comment = models.TextField(null=True, blank=True)
 

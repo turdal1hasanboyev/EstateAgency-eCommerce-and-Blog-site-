@@ -8,7 +8,7 @@ import uuid
 
 class Agent(BaseModel):
     full_name = models.CharField(max_length=155, unique=True)
-    slug = models.SlugField(max_length=155, unique=True, blank=True)
+    slug = models.SlugField(max_length=155, unique=True, blank=True, db_index=True)
     image = models.ImageField(upload_to='agent_images', default='img/user-default-image')
     description = RichTextField(null=True, blank=True)
     phone_number = models.CharField(max_length=15)
