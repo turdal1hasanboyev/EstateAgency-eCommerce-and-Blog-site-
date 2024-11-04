@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 env.read_env(str(BASE_DIR / '.env'))
 
-SECRET_KEY = SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = True
 
