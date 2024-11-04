@@ -65,6 +65,8 @@ class CustomUser(AbstractUser, BaseModel):
     adress = RichTextField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER, null=True, blank=True)
     note = models.CharField(max_length=50, null=True, blank=True)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
 
     objects = CustomUserManager()
 
@@ -88,11 +90,12 @@ class CustomUser(AbstractUser, BaseModel):
 class About(BaseModel):
     name = models.CharField(max_length=125, unique=True)
     description = RichTextField(null=True, blank=True)
+    banner_image = models.ImageField(upload_to='about_banner_images/', default='img/default-image.jpg')
     image = models.ImageField(upload_to='about_images/', default='img/user-default-image.jpg')
 
     class Meta:
-        verbose_name = 'Haqimizda'
-        verbose_name_plural = 'Haqimizda'
+        verbose_name = 'Biz Haqimizda'
+        verbose_name_plural = 'Biz Haqimizda'
 
     def __str__(self):
         return f"{self.name}"

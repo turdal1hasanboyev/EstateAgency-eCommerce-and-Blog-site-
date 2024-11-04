@@ -6,18 +6,19 @@ from .models import Contact, AgentContact
 class ContactAdmin(admin.ModelAdmin):
     list_display = (
         'id',
+        'user',
         'name',
         'email',
+        'subject',
         'is_active',
         'created_at',
         'updated_at',
     )
     
-    ordering = ('-name',) 
+    ordering = ('-name',)
     search_fields = ('name',)
     list_filter = (
         'name',
-        'email',
         'is_active',
     )
     readonly_fields = (
@@ -40,7 +41,7 @@ class AgentContactAdmin(admin.ModelAdmin):
     )
     
     ordering = ('id',) 
-    search_fields = ('name', 'agent')
+    search_fields = ('name',)
     list_filter = (
         'agent',
         'name',

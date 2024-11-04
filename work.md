@@ -209,3 +209,11 @@ class CustomUser(AbstractUser, BaseModel):
             return f"{self.get_full_name()}"
         return F"{self.email}"
 ```
+# Men ertaga nima ish qilaman?
+* Bugun barcha modellar deyarli tarzda yozib bo'lindi lekin umumiy ravishda qayta tekshiruv bo'lishi kerak
+* Har bir app va har bir model va adminka qismi qayta tekshiruvdan otadi
+# Admin panel ga alohida etibor
+* Ertaga template ham yozamiz
+# Barcha modellar yozib bo'lindi
+# Liked (Agent, Article, Comment, Testimonial, Property, User)
+* Model yozish tugadi!!!

@@ -36,9 +36,9 @@ class ArticleTagAdmin(admin.ModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'sub_title', 'category', 'author', 'views', 'is_active', 'created_at', 'updated_at')
-    ordering = ('title',)
-    search_fields = ('title', 'sub_title', 'category__name', 'author__email',)
+    list_display = ('id', 'title', 'sub_title', 'image', 'video', 'category', 'author', 'views', 'likes', 'is_active', 'created_at', 'updated_at')
+    ordering = ('-id',)
+    search_fields = ('title', 'sub_title',)
     prepopulated_fields = {
         'slug': ('title',)
     }
@@ -56,9 +56,9 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'article', 'user', 'name', 'email', 'web_site', 'created_at', 'updated_at')
+    list_display = ('id', 'article', 'user', 'name', 'email', 'web_site', 'likes', 'views', 'created_at', 'updated_at')
     ordering = ('-created_at',)
-    search_fields = ('name', 'email', 'article__title', 'user__email', 'web_site')
+    search_fields = ('name', 'email', 'web_site')
     readonly_fields = (
         'id',
         'created_at',

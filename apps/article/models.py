@@ -12,11 +12,11 @@ class ArticleCategory(BaseModel):
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, db_index=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
     class Meta:
-        verbose_name = "Maqola Kategoriyasi"
-        verbose_name_plural = "Maqola Kategoriyalari"
+        verbose_name = 'Kategoriya'
+        verbose_name_plural = "Kategoriyalar"
     
     def save(self, *args, **kwargs):
         if not self.slug and self.name:
@@ -29,11 +29,11 @@ class ArticleTag(BaseModel):
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, db_index=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
     class Meta:
-        verbose_name = "Maqola HashTagi"
-        verbose_name_plural = "Maqola HashTaglari"
+        verbose_name = "HashTag"
+        verbose_name_plural = "HashTaglar"
     
     def save(self, *args, **kwargs):
         if not self.slug and self.name:
@@ -45,13 +45,20 @@ class Article(BaseModel):
     title = models.CharField(max_length=250, unique=True)
     sub_title = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, db_index=True, null=True, blank=True, unique=True)
+    image = models.ImageField(upload_to='article_images', default='img/default-image.jpg')
+    video = models.FileField(upload_to='article_videos')
     category = models.ForeignKey(to=ArticleCategory, on_delete=models.CASCADE, related_name="ArticleCategory")
     tags = models.ManyToManyField(to=ArticleTag, blank=True)
     author = models.ForeignKey(to=CustomUser, on_delete=models.CASCADE, related_name="ArticleAuthor")
     description = RichTextField(null=True, blank=True)
+    description_1 = RichTextField(null=True, blank=True)
+    description_2 = RichTextField(null=True, blank=True)
+    description_3 = RichTextField(null=True, blank=True)
+    testimonial_4 = models.TextField(null=True, blank=True)
     views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self, *args, **kwargs):
         return reverse("article-single", kwargs={"slug": self.slug})
     
     def save(self, *args, **kwargs):
@@ -74,10 +81,12 @@ class Comment(BaseModel):
     email = models.EmailField()
     web_site = models.URLField()
     comment = RichTextField(null=True, blank=True)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user}-{self.article}"
     
     class Meta:
-        verbose_name = "Maqola Komentariyasi"
-        verbose_name_plural = "Maqola Komentariyalari"
+        verbose_name = "Izoh"
+        verbose_name_plural = "Izohlar"

@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 
 
 class Contact(BaseModel):
+    user = models.ForeignKey(to='user.CustomUser', on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     subject = models.CharField(max_length=125)
@@ -15,6 +16,7 @@ class Contact(BaseModel):
     class Meta:
         verbose_name = "Biz bilan aloqa"
         verbose_name_plural = "Biz bilan aloqa"  # noqa: E501
+
 
 class AgentContact(BaseModel):
     name = models.CharField(max_length=155)

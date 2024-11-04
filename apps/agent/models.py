@@ -7,8 +7,12 @@ import uuid
 
 
 class Agent(BaseModel):
+    GENDER = (
+        ('Erkak', ('Erkak')),
+        ('Ayol', ('Ayol')),
+    )
     full_name = models.CharField(max_length=155, unique=True)
-    slug = models.SlugField(max_length=155, unique=True, blank=True, db_index=True)
+    slug = models.SlugField(max_length=155, unique=True, blank=True, null=True, db_index=True)
     image = models.ImageField(upload_to='agent_images', default='img/user-default-image')
     description = RichTextField(null=True, blank=True)
     phone_number = models.CharField(max_length=15)
@@ -17,6 +21,9 @@ class Agent(BaseModel):
     email_1 = models.EmailField(max_length=50, null=True, blank=True)
     skype = models.CharField(max_length=50, blank=True)
     type = models.CharField(max_length=100)
+    gender = models.CharField(max_length=10, choices=GENDER)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.full_name}"
@@ -26,7 +33,7 @@ class Agent(BaseModel):
         verbose_name_plural = "Agentlar"
 
     def get_absolute_url(self, *args, **kwargs):
-        return reverse('agent-detail', kwargs={'slug': self.slug})
+        return reverse('agent-single', kwargs={'slug': self.slug})
     
     def save(self, *args, **kwargs):
         if not self.slug and self.full_name:

@@ -3,6 +3,11 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, About
 
 
+admin.site.site_header = "Estate Agency Admin Paneli"
+admin.site.site_title = "Estate Agency Admin Paneli"
+admin.site.index_title = "Estate Agency Boshqaruv Paneliga Xush Kelibsiz!"
+
+
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     list_display = (
@@ -15,6 +20,8 @@ class CustomUserAdmin(UserAdmin):
         'gender',
         'profile_picture',
         'profile_video',
+        'views',
+        'likes',
         'is_active',
         'is_staff',
         'is_superuser',
@@ -70,16 +77,17 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(About)
 class AboutAdmin(admin.ModelAdmin):
     list_display = (
-        'id',                # Foydalanuvchining ID raqami
-        'name',              # Nomi
-        'image',             # Rasm
-        'is_active',         # Foydalanuvchining faol holati
-        'created_at',        # Yaratilgan sanasi
-        'updated_at',        # Yangilangan sanasi
+        'id',
+        'name',
+        'banner_image',
+        'image',
+        'is_active',
+        'created_at',
+        'updated_at',
     )
     
-    ordering = ('-id',)  # ID ga qarab tartiblash
-    search_fields = ('name',)      # Qidiruv maydoni
+    ordering = ('-id',)
+    search_fields = ('name',)
     list_filter = ('is_active', 'name',)
     readonly_fields = (
         'id',
