@@ -6,5 +6,5 @@ def objects(request):
 
     return {
         'companies': companies,
-        'countries': countries
+        'countries': countries,
     }

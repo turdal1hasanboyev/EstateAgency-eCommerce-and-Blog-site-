@@ -21,8 +21,7 @@
                     <span class="color-b">{{ banner.name }}
                   </h1>
                   <p class="intro-subtitle intro-price">
-                    <a href="{% url 'property-single' banner.slug %}"><span class="price-a">{{ banner.status }} | {{
-                        banner.price_type}} {{ banner.price }}</span></a>
+                    <a href="{% url 'property-single' banner.slug %}"><span class="price-a">{{ banner.status }} | {{ banner.price_type }} {{ banner.price }}</span></a>
                   </p>
                 </div>
               </div>
@@ -177,7 +176,7 @@
             </div>
             <div class="card-body-d">
               <p class="content-d color-text-a">
-                {{ agent.description|slice:":30"|safe }}
+                {{ agent.description|slice:":25"|safe }}
               </p>
               <div class="info-agents color-a">
                 <p>

@@ -3,7 +3,6 @@ from apps.agent.models import Agent
 
 
 def agents_page_view(request):
-
     context = {
 
     }

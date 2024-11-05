@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from apps.eCommerce.models import Property
 from apps.common.models import Service
 from apps.agent.models import Agent
 from apps.article.models import Article
 from ..common.models import Testimonial, Subscribe_Email
+from apps.contact.models import AgentContact
 
 
 def home_page_view(request):
@@ -31,6 +32,8 @@ def home_page_view(request):
     return render(request, 'home.html', context)
 
 def property_single_page_view(request, slug):
+    url = request.META.get('HTTP_REFERER')
+
     property = get_object_or_404(Property, slug__iexact=slug, is_active=True)
     property.views +=1
     property.save()
@@ -45,16 +48,32 @@ def property_single_page_view(request, slug):
         sub_email = Subscribe_Email.objects.create(sub_email=sub_email)
         sub_email.save()
 
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        comment = request.POST.get("comment")
+
+        AgentContact.objects.create(
+            agent_id=property.agent.id,
+            name=name,
+            email=email,
+            comment=comment,
+        )
+
+        return redirect(url)
+
     return render(request=request, template_name='property-single.html', context=context)
 
 def properties_page_view(request):
+    properties = Property.objects.filter(is_active=True).order_by('?')[:6]
 
     context = {
-
+        'properties': properties,
     }
 
     if request.method == 'POST':
         sub_email = Subscribe_Email()
+        
         sub_email.sub_email = request.POST.get('sub_email')
         sub_email.save()
 
