@@ -47,11 +47,18 @@ class Property(BaseModel):
     ("Sale", ("Sale")),
     ("Rent", ("Rent")),
     )
+    THE_PRICE = (
+        ("UZS", ("UZB")),
+        ("$", ("USA")),
+        ("€", ("EURO")),
+        ("₽", ("RUS")),
+    )
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(unique=True, max_length=200, null=True, blank=True, db_index=True)
     description = RichTextField(null=True, blank=True)
     description_1 = RichTextField(null=True, blank=True)
     location = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='property_images/', default='img/default-image.jpg')
     video = models.FileField(upload_to='property_videos')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     type = models.CharField(max_length=225)
@@ -65,6 +72,8 @@ class Property(BaseModel):
     garages = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    is_banner = models.BooleanField(default=False)
+    price_type = models.CharField(max_length=10, choices=THE_PRICE, default=("$", ("USA")))
 
     def get_absolute_url(self, *args, **kwargs):
         return reverse("property-single", kwargs={"slug": self.slug})

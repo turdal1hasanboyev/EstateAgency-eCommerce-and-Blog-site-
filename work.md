@@ -334,3 +334,4 @@ class PropertyImageInline(admin.TabularInline):
     extra = 0
 ```
 * Tugilgan kun kiritilganda bugun necha yoshligimni aniqlab beradigan qilish
+# app name ishlatmaslik kerak ekan get_absolute url da hato boryapti

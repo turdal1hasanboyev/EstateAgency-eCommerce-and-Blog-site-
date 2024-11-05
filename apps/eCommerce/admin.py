@@ -22,9 +22,9 @@ class PropertyImageInline(admin.TabularInline):
 class PropertyAdmin(admin.ModelAdmin):
     inlines = [PropertyImageInline] # inline
     ordering = ('id',)
-    list_display = ('id', 'name', 'category', 'price', 'location', 'video', 'type', 'status', 'agent', 'area', 'beds', 'baths', 'garages', 'likes', 'views', 'is_active', 'created_at', 'updated_at')
+    list_display = ('id', 'name', 'category', 'price', 'location', 'video', 'image', 'type', 'status', 'agent', 'area', 'beds', 'baths', 'garages', 'likes', 'views', 'is_banner', 'price_type', 'is_active', 'created_at', 'updated_at')
     search_fields = ('name', 'location', 'type', 'status', 'price', 'area', 'beds', 'baths', 'garages', 'views',)
-    list_filter = ('status', 'type', 'is_active', 'price', 'agent', 'category',)
+    list_filter = ('status', 'type', 'is_active', 'price', 'agent', 'category', 'is_banner', 'price_type',)
     readonly_fields = ('id', 'created_at', 'updated_at',)
     prepopulated_fields = {
         'slug': ('name',)

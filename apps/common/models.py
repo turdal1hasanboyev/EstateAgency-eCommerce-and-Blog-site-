@@ -41,7 +41,7 @@ class Testimonial(BaseModel):
         return f"{self.male_name} - {self.female_name}"
     
     def get_testimonial_full_name(self):
-        return f"{self.male_name} {self.female_name}"
+        return f"{self.male_name} & {self.female_name}"
     
     class Meta:
         verbose_name = "Guvohnoma"
