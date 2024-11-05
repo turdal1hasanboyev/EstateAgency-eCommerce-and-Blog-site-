@@ -334,4 +334,44 @@ class PropertyImageInline(admin.TabularInline):
     extra = 0
 ```
 * Tugilgan kun kiritilganda bugun necha yoshligimni aniqlab beradigan qilish
-# app name ishlatmaslik kerak ekan get_absolute url da hato boryapti
+# app name ishlatmaslik kerak ekan get_absolute_url da hato boryapti
+Contact va blog pagelarni qilamiz
+About modelni tekshiramiz
+```
+Comments ({{ article.CommentArticle.count }}) article ga yozilgan Izohlar sonini chiqarish
+Diqqat qoida article bu hozirgi paytdagi obyekt
+CommentArticle esa Comment klass ning articlega ulangandagi related name i
+related name berilgan bolsa <obyekt>.<related_name>.count
+aks holda <hozirgi obyekt>.<klass nomi>_set.count tarzida beriladi
+```
+```
+{{ article.comment_set.count }} bu usulim ishlamdi
+ChatGPT сказал:
+ChatGPT
+{{ article.comment_set.count }} Django Template Templatedagi comment_set ni ishlamagan bo'lsa, bir necha sabablarga ko'ra bo'lishi mumkin. Keling, muammolarni aniqlash uchun ba'zi tekshiruvlarni amalga oshiramiz:
+
+Modellar O‘rtasidagi Aloqa: article modelida Comment modeli bilan ForeignKey aloqasi borligiga ishonch hosil qiling. Masalan:
+
+python
+Копировать код
+class Article(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="comments")
+    text = models.TextField()
+Bu yerda related_name="comments" belgilangan, shunda article.comments.count sifatida comment_set o'rniga foydalanish mumkin.
+
+related_nameni Tekshirish: Agar ForeignKey ga related_name qo‘llagan bo‘lsangiz, comment_set o‘rniga bu nomni ishlatishingiz kerak bo‘ladi. Masalan:
+
+html
+Копировать код
+{{ article.comments.count }}
+Bo'sh Ma'lumot: Comment modelida hech qanday yozuv yo‘qligiga ishonch hosil qiling, ya'ni comment_set mavjud bo'lmasligi mumkin.
+
+Admin Panelda Tekshirish: Comment modelingizda Article ga bog'langan yozuvlar borligiga va ular to'g'ri ishlayotganiga ishonch hosil qiling.
+
+Agar yuqoridagi qadamlar ish bermasa yoki qo‘shimcha yordam kerak bo‘lsa, menga xabar bering!
+```
+* Ertaga agent app ni koramiz template yozamiz loyihani qaytadan tahlil qilamiz
