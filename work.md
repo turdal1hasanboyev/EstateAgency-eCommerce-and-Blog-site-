@@ -2,7 +2,6 @@
 
 1. GitHub repo ochdik
 [GitHub] (https://github.com/turdal1hasanboyev/EstateAgency-eCommerce-and-Blog-site-.git)
-
 * work.md fayl yaratdik
 * README.md faylini sozladik
 * .gitignore faylini sozladik
@@ -38,25 +37,31 @@ tzdata==2024.2
 * Malumotlar bazasi tahlili
 * Custom User qayta tahlili
 * Custom User admin.py tahlili
-5. Modellarni birin ketin yozib chiqamiz!
+* Modellarni birin ketin yozib chiqamiz!
 # Agent
-*
+* True
 # Article
-*
+* True
 # Common
-*
+* True
 # Contact
-*
+* True
 # User
 * True
 # eCommerce
-* 
+* True
 # Custom User uchun admin.py 
-
+* True
 ```
+user.admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, About
+
+
+admin.site.site_header = "Estate Agency Admin Paneli"
+admin.site.site_title = "Estate Agency Admin Paneli"
+admin.site.index_title = "Estate Agency Boshqaruv Paneliga Xush Kelibsiz!"
 
 
 @admin.register(CustomUser)
@@ -69,6 +74,12 @@ class CustomUserAdmin(UserAdmin):
         'email',
         'phone_number',
         'gender',
+        'profile_picture',
+        'profile_video',
+        'views',
+        'likes',
+        'birth_date',
+        'age',
         'is_active',
         'is_staff',
         'is_superuser',
@@ -93,6 +104,7 @@ class CustomUserAdmin(UserAdmin):
     )
     readonly_fields = (
         'id',
+        'age',
         'last_login',
         "date_joined",
         'created_at',
@@ -104,13 +116,13 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password')
         }),
         ('Personal Info', {
-            'fields': ('first_name', 'last_name', 'phone_number', 'gender', 'description', 'note', 'profile_picture', 'profile_video', 'adress')
+            'fields': ('first_name', 'last_name', 'phone_number', 'gender', 'description', 'note', 'profile_picture', 'profile_video', 'adress',)
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser')
         }),
         ('Important Dates', {
-        'fields': ('created_at', 'updated_at', "date_joined", 'last_login')
+        'fields': ('created_at', 'updated_at', "date_joined", 'last_login', 'birth_date', 'age',)
         }),
     )
     add_fieldsets = (
@@ -119,15 +131,37 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2', 'phone_number', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser')}
         ),
     )
-```
 
-*Custom User models.py*
+
+@admin.register(About)
+class AboutAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'name',
+        'banner_image',
+        'image',
+        'is_active',
+        'created_at',
+        'updated_at',
+    )
+    
+    ordering = ('-id',)
+    search_fields = ('name',)
+    list_filter = ('is_active', 'name',)
+    readonly_fields = (
+        'id',
+        'created_at',
+        'updated_at',
+    )
+```
+*user.models.py*
 ```
 from django.db import models
 import re
 from ckeditor.fields import RichTextField
 from apps.common.models import BaseModel
 from django.contrib.auth.models import AbstractUser, UserManager
+from datetime import date
 
 
 class CustomUserManager(UserManager):
@@ -190,6 +224,9 @@ class CustomUser(AbstractUser, BaseModel):
     adress = RichTextField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER, null=True, blank=True)
     note = models.CharField(max_length=50, null=True, blank=True)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    birth_date = models.DateField(null=True, blank=True)
 
     objects = CustomUserManager()
 
@@ -208,6 +245,31 @@ class CustomUser(AbstractUser, BaseModel):
         if self.get_full_name():
             return f"{self.get_full_name()}"
         return F"{self.email}"
+    
+    def age(self):
+        # Agar birth_date mavjud emas yoki noto‘g‘ri formatda bo‘lsa, None qaytaramiz
+        if not isinstance(self.birth_date, date):
+            return None
+
+        today = date.today()
+        age = today.year - self.birth_date.year
+        if (today.month, today.day) < (self.birth_date.month, self.birth_date.day):
+            age -= 1
+        return age
+    
+
+class About(BaseModel):
+    name = models.CharField(max_length=125, unique=True)
+    description = RichTextField(null=True, blank=True)
+    banner_image = models.ImageField(upload_to='about_banner_images/', default='img/default-image.jpg')
+    image = models.ImageField(upload_to='about_images/', default='img/user-default-image.jpg')
+
+    class Meta:
+        verbose_name = 'Biz Haqimizda'
+        verbose_name_plural = 'Biz Haqimizda'
+
+    def __str__(self):
+        return f"{self.name}"
 ```
 # Men ertaga nima ish qilaman?
 * Bugun barcha modellar deyarli tarzda yozib bo'lindi lekin umumiy ravishda qayta tekshiruv bo'lishi kerak
@@ -217,3 +279,58 @@ class CustomUser(AbstractUser, BaseModel):
 # Barcha modellar yozib bo'lindi
 # Liked (Agent, Article, Comment, Testimonial, Property, User)
 * Model yozish tugadi!!!
+5. Bugungi ishimiz template, views, urls larni yozish
+
+```
+admin.site.site_header = "Estate Agency Admin Paneli"
+admin.site.site_title = "Estate Agency Admin Paneli"
+admin.site.index_title = "Estate Agency Boshqaruv Paneliga Xush Kelibsiz!"
+```
+* Admin sahifa nomini o'zgartirish usuli
+```
+@admin.register(Your Model) - adminni to'g'ridan to'g'ri class bilan registratsiya qilish
+class YouModelAdmin(admin.ModelAdmin):
+...
+...
+admin.site.register(YourModel, YouModelAdmin) - oldin admin class admin yaratib model va modeladminni yonma yon register qilish
+class YouModelAdmin(admin.ModelAdmin):
+...
+...
+ModelAdmin - oddiy modellar uchun
+UserAdmin - odatda CustomUser modellari uchun
+Fieldlari
+ordering - tartiblash
+list_display - displayda korinadigan fieldlarini tartib bilan yozib chiqish
+list_filter - listda filterlash berilgan fieldlar bo'yicha
+search_fields - qidiruv tizimi berilgan fieldlar bo'yicha (fieldlar ichiga ichma ich kirish __ bilan)
+readonly_fields - faqat o'qisa boladigan fieldlar
+inlines = [your inline class(model)] - inline qo'shish
+prepopulated_fields = {
+        'slug': ('title',)
+    } - avtomatik to'ldiriladigan fieldlar ushbu ko'rinishda yoziladi
+Oltin qoida! fieldlar odatda () ichiga yoziladi va oxirgi field dan so'ng , qo'yish kerak
+```
+* Adminkada Inlines qo'shamiz
+* Admin panelda qanday qilib inline qo'shishni ko'rdik
+```
+# models.py (Propertyda image fildi kerak emas)
+class PropertyImage(BaseModel):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_image')
+    image = models.ImageField(upload_to='property_images')
+    is_main = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.property.name}-{self.image}"
+    
+    class Meta:
+        verbose_name = "PropertyRasm"
+        verbose_name_plural = "PropertyRasmlari"
+```
+```
+# property adminida inline orqali ushbu klass nomi yozilsin
+Bu klass ni alohida royhatdan otkazish shart emas
+class PropertyImageInline(admin.TabularInline):
+    model = PropertyImage
+    extra = 0
+```
+* Tugilgan kun kiritilganda bugun necha yoshligimni aniqlab beradigan qilish

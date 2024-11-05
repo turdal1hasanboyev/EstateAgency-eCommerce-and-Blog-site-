@@ -3,6 +3,7 @@ import re
 from ckeditor.fields import RichTextField
 from apps.common.models import BaseModel
 from django.contrib.auth.models import AbstractUser, UserManager
+from datetime import date
 
 
 class CustomUserManager(UserManager):
@@ -67,6 +68,7 @@ class CustomUser(AbstractUser, BaseModel):
     note = models.CharField(max_length=50, null=True, blank=True)
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    birth_date = models.DateField(null=True, blank=True)
 
     objects = CustomUserManager()
 
@@ -85,6 +87,17 @@ class CustomUser(AbstractUser, BaseModel):
         if self.get_full_name():
             return f"{self.get_full_name()}"
         return F"{self.email}"
+    
+    def age(self):
+        # Agar birth_date mavjud emas yoki noto‘g‘ri formatda bo‘lsa, None qaytaramiz
+        if not isinstance(self.birth_date, date):
+            return None
+
+        today = date.today()
+        age = today.year - self.birth_date.year
+        if (today.month, today.day) < (self.birth_date.month, self.birth_date.day):
+            age -= 1
+        return age
     
 
 class About(BaseModel):

@@ -52,7 +52,6 @@ class Property(BaseModel):
     description = RichTextField(null=True, blank=True)
     description_1 = RichTextField(null=True, blank=True)
     location = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='property_images/', default='img/default-image.jpg')
     video = models.FileField(upload_to='property_videos')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     type = models.CharField(max_length=225)
@@ -81,3 +80,16 @@ class Property(BaseModel):
     class Meta:
         verbose_name = "Mol-mulk"
         verbose_name_plural = "Mollar/Mulklar"
+
+
+class PropertyImage(BaseModel):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_image')
+    image = models.ImageField(upload_to='property_images')
+    is_main = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.property.name}-{self.image}"
+    
+    class Meta:
+        verbose_name = "PropertyRasm"
+        verbose_name_plural = "PropertyRasmlari"

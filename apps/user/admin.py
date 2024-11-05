@@ -22,6 +22,8 @@ class CustomUserAdmin(UserAdmin):
         'profile_video',
         'views',
         'likes',
+        'birth_date',
+        'age',
         'is_active',
         'is_staff',
         'is_superuser',
@@ -46,6 +48,7 @@ class CustomUserAdmin(UserAdmin):
     )
     readonly_fields = (
         'id',
+        'age',
         'last_login',
         "date_joined",
         'created_at',
@@ -57,13 +60,13 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password')
         }),
         ('Personal Info', {
-            'fields': ('first_name', 'last_name', 'phone_number', 'gender', 'description', 'note', 'profile_picture', 'profile_video', 'adress')
+            'fields': ('first_name', 'last_name', 'phone_number', 'gender', 'description', 'note', 'profile_picture', 'profile_video', 'adress',)
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser')
         }),
         ('Important Dates', {
-        'fields': ('created_at', 'updated_at', "date_joined", 'last_login')
+        'fields': ('created_at', 'updated_at', "date_joined", 'last_login', 'birth_date', 'age',)
         }),
     )
     add_fieldsets = (
