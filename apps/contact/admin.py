@@ -14,7 +14,6 @@ class ContactAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
-    
     ordering = ('-name',)
     search_fields = ('name',)
     list_filter = (
@@ -39,7 +38,6 @@ class AgentContactAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
-    
     ordering = ('id',) 
     search_fields = ('name',)
     list_filter = (

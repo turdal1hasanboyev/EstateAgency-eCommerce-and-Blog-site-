@@ -8,6 +8,8 @@ from apps.contact.models import AgentContact
 
 
 def home_page_view(request):
+    url = request.META.get('HTTP_REFERER')
+
     banners = Property.objects.filter(is_active=True, is_banner=True).order_by('-id')[:3]
     our_services = Service.objects.filter(is_active=True).order_by('name')[:3]
     latest_properties = Property.objects.filter(is_active=True).order_by('-id')[:4]
@@ -28,6 +30,7 @@ def home_page_view(request):
         sub_email = request.POST.get('sub_email')
         
         Subscribe_Email.objects.create(sub_email=sub_email)
+        return redirect(url)
 
     return render(request, 'home.html', context)
 
@@ -38,15 +41,12 @@ def property_single_page_view(request, slug):
     property.views +=1
     property.save()
 
-    context = {
-        'property': property,
-    }
-
     if request.method == 'POST':
         sub_email = request.POST.get('sub_email')
-        
+
         sub_email = Subscribe_Email.objects.create(sub_email=sub_email)
         sub_email.save()
+        return redirect(url)
 
     if request.method == "POST":
         name = request.POST.get("name")
@@ -59,22 +59,17 @@ def property_single_page_view(request, slug):
             email=email,
             comment=comment,
         )
-
         return redirect(url)
 
-    return render(request=request, template_name='property-single.html', context=context)
+    return render(request=request, template_name='property-single.html', context={'property': property})
 
 def properties_page_view(request):
     properties = Property.objects.filter(is_active=True).order_by('?')[:6]
 
-    context = {
-        'properties': properties,
-    }
-
     if request.method == 'POST':
         sub_email = Subscribe_Email()
-        
         sub_email.sub_email = request.POST.get('sub_email')
         sub_email.save()
+        return redirect('properties')
 
-    return render(request, 'properties-grid.html', context)
+    return render(request, 'properties-grid.html', {'properties': properties})

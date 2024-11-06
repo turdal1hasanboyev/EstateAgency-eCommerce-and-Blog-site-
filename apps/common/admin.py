@@ -26,7 +26,6 @@ class TestimonialAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
-    
     ordering = ('-created_at',)
     search_fields = ('male_name', 'female_name')
     list_filter = ('is_active', 'male_name', 'female_name')

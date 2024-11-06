@@ -21,7 +21,7 @@ def agent_single_page_view(request, slug):
     # url = request.META.get('HTTP_REFERER') # Oldingi sahifani qaytaradi
     url = request.build_absolute_uri() # Hozirgi sahifani qaytaradi
 
-    agent = Agent.objects.filter(is_active=True, slug__exact=slug).first()
+    agent = Agent.objects.filter(is_active=True, slug__exact=slug).first() # detail sahifalarda filter() bilan bir obyektni olish kerak bo'sa first() ishlatiladi
     my_properties = Property.objects.filter(is_active=True, agent_id=agent.id).order_by('id')[:6]
 
     if request.method == 'POST':

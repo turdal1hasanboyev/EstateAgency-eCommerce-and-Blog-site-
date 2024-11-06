@@ -16,7 +16,7 @@
         <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Home</a>
+              <a href="{% url 'home' %}">Home</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
               About
@@ -98,7 +98,7 @@
             </div>
             <div class="card-body-d">
               <p class="content-d color-text-a">
-                {{ team.description|slice:":30"|safe }}
+                {{ team.description|slice:":30"|safe }}...
               </p>
               <div class="info-agents color-a">
                 <p>

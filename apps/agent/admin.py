@@ -21,7 +21,6 @@ class AgentAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
-
     ordering = ('-created_at',)
     search_fields = ('full_name', 'email', 'type', 'skype', 'email_1', 'phone_number', 'mobile_number', 'gender',)
     readonly_fields = (

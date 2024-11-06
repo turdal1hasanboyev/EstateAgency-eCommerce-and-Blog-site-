@@ -1,5 +1,4 @@
 # EstateAgency-eCommerce-and-Blog-site-
-
 1. GitHub repo ochdik
 [GitHub] (https://github.com/turdal1hasanboyev/EstateAgency-eCommerce-and-Blog-site-.git)
 * work.md fayl yaratdik
@@ -280,7 +279,6 @@ class About(BaseModel):
 # Liked (Agent, Article, Comment, Testimonial, Property, User)
 * Model yozish tugadi!!!
 5. Bugungi ishimiz template, views, urls larni yozish
-
 ```
 admin.site.site_header = "Estate Agency Admin Paneli"
 admin.site.site_title = "Estate Agency Admin Paneli"

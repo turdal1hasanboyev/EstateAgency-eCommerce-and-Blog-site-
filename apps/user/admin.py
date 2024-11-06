@@ -88,7 +88,6 @@ class AboutAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
-    
     ordering = ('-id',)
     search_fields = ('name',)
     list_filter = ('is_active', 'name',)

@@ -7,9 +7,10 @@ def blogs_page_view(request):
     articles = Article.objects.filter(is_active=True).order_by('id')[:6]
 
     if request.method == 'POST':
-        sub_email = request.POSTget('sub_email')
-        
+        sub_email = request.POST.get('sub_email')
+
         Subscribe_Email.objects.create(sub_email=sub_email)
+        return redirect('article')
 
     return render(request, 'blogs-grid.html', context={'articles': articles})
 
@@ -38,7 +39,7 @@ def blog_detail_page_view(request, slug):
         return redirect('article-single', article.slug)
     
     if request.method == 'POST':
-        sub_email = request.POSTget('sub_email')
+        sub_email = request.POST.get('sub_email')
         
         Subscribe_Email.objects.create(sub_email=sub_email)
         return redirect(url)
