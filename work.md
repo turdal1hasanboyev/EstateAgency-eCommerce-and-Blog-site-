@@ -375,3 +375,7 @@ Admin Panelda Tekshirish: Comment modelingizda Article ga bog'langan yozuvlar bo
 Agar yuqoridagi qadamlar ish bermasa yoki qo‘shimcha yordam kerak bo‘lsa, menga xabar bering!
 ```
 * Ertaga agent app ni koramiz template yozamiz loyihani qaytadan tahlil qilamiz
+* url = request.META.get('HTTP_REFERER') bitta oldingi sahifani qaytaradi
+* url = request.build_absolute_uri() hozirgi sahifani qaytaradi
+# Login Register Logout va Contact O'xshamadi
+# Loyiha tugatildi

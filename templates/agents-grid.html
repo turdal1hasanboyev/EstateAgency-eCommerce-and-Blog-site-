@@ -32,30 +32,30 @@
 <section class="agents-grid grid">
   <div class="container">
     <div class="row">
+      {% for agent in agents %}
       <div class="col-md-4">
         <div class="card-box-d">
           <div class="card-img-d">
-            <img src="img/agent-4.jpg" alt="" class="img-d img-fluid">
+            <img src="{{ agent.image.url }}" alt="" class="img-d img-fluid">
           </div>
           <div class="card-overlay card-overlay-hover">
             <div class="card-header-d">
               <div class="card-title-d align-self-center">
                 <h3 class="title-d">
-                  <a href="#" class="link-two">Margaret Sotillo
-                    <br> Escala</a>
+                  <a href="{% url 'agent-single' agent.slug %}" class="link-two">{{ agent.full_name }}
                 </h3>
               </div>
             </div>
             <div class="card-body-d">
               <p class="content-d color-text-a">
-                Sed porttitor lectus nibh, Cras ultricies ligula sed magna dictum porta two.
+                {{ agent.description|slice:':30'|safe}}...
               </p>
               <div class="info-agents color-a">
                 <p>
-                  <strong>Phone: </strong> +54 356 945234
+                  <strong>Phone: </strong> {{ agent.phone_number }}
                 </p>
                 <p>
-                  <strong>Email: </strong> agents@example.com
+                  <strong>Email: </strong> {{ agent.email }}
                 </p>
               </div>
             </div>
@@ -63,27 +63,27 @@
               <div class="socials-footer d-flex justify-content-center">
                 <ul class="list-inline">
                   <li class="list-inline-item">
-                    <a href="#" class="link-one">
+                    <a href="https://www.facebook.com/" class="link-one">
                       <i class="fa fa-facebook" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li class="list-inline-item">
-                    <a href="#" class="link-one">
+                    <a href="https://www.x.com/" class="link-one">
                       <i class="fa fa-twitter" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li class="list-inline-item">
-                    <a href="#" class="link-one">
+                    <a href="https://www.instagram.com/turdali.hasanboyev.07" class="link-one">
                       <i class="fa fa-instagram" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li class="list-inline-item">
-                    <a href="#" class="link-one">
+                    <a href="https://www.pinterest.com/" class="link-one">
                       <i class="fa fa-pinterest-p" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li class="list-inline-item">
-                    <a href="#" class="link-one">
+                    <a href="https://dribbble.com/" class="link-one">
                       <i class="fa fa-dribbble" aria-hidden="true"></i>
                     </a>
                   </li>
@@ -93,6 +93,7 @@
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
   </div>
 </section>
